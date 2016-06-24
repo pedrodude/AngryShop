@@ -24,7 +24,7 @@ namespace AngryShop.Entities
         }
 
 
-        private bool _sortOrderIsAscending = true;
+        private bool _sortOrderIsAscending = false;
         /// <summary> Words list sort order is ascending </summary>
         public bool SortOrderIsAscending
         {
@@ -32,23 +32,28 @@ namespace AngryShop.Entities
             set
             {
                 _sortOrderIsAscending = value;
+                _sortOrderIsDescending = !value;
                 OnPropertyChanged("SortOrderIsAscending");
+                OnPropertyChanged("SortOrderIsDescending");
             }
         }
+
+        private bool _sortOrderIsDescending = true;
         /// <summary> Words list sort order is descending </summary>
         public bool SortOrderIsDescending
         {
-            get { return !_sortOrderIsAscending; }
+            get { return _sortOrderIsDescending; }
             set
             {
+                _sortOrderIsDescending = value;
                 _sortOrderIsAscending = !value;
+                OnPropertyChanged("SortOrderIsAscending");
                 OnPropertyChanged("SortOrderIsDescending");
             }
         }
 
 
         private int _frequencyThreshold = 2;
-
         /// <summary> Minimum frequency for words to appear on list (default >=2) </summary>
         public int FrequencyThreshold
         {
@@ -61,36 +66,58 @@ namespace AngryShop.Entities
         }
 
 
-        private ListVisibilityTypes _listVisibilityType = ListVisibilityTypes.OnFocus;
+        //private ListVisibilityTypes _listVisibilityType = ListVisibilityTypes.OnTrayIconClick;
+        ///// <summary> Words list sort order </summary>
+        //public ListVisibilityTypes ListVisibilityType
+        //{
+        //    get { return _listVisibilityType; }
+        //    set
+        //    {
+        //        _listVisibilityType = value;
+        //        OnPropertyChanged("ListVisibilityType");
+        //    }
+        //}
 
-        /// <summary> Words list sort order </summary>
-        public ListVisibilityTypes ListVisibilityType
+        private bool _toDisplayListOnTextFocus = false;
+        /// <summary> To display main window on text input box focus </summary>
+        public bool ToDisplayListOnTextFocus
         {
-            get { return _listVisibilityType; }
+            get { return _toDisplayListOnTextFocus; }
             set
             {
-                _listVisibilityType = value;
-                OnPropertyChanged("ListVisibilityType");
+                _toDisplayListOnTextFocus = value;
+                OnPropertyChanged("ToDisplayListOnTextFocus");
             }
         }
 
-
-        private bool _toHideCommonWords = true;
-
-        /// <summary> Allows user to display/hide "common" words </summary>
-        public bool ToHideCommonWords
+        private bool _toDisplayListOnHotkey = true;
+        /// <summary> To use hotkey combination "Ctrl+Alt+S" </summary>
+        public bool ToDisplayListOnHotkey
         {
-            get { return _toHideCommonWords; }
+            get { return _toDisplayListOnHotkey; }
             set
             {
-                _toHideCommonWords = value;
-                OnPropertyChanged("ToHideCommonWords");
+                _toDisplayListOnHotkey = value;
+                OnPropertyChanged("ToDisplayListOnHotkey");
+            }
+        }
+        
+
+
+        private bool _toHideIgnoredWords = true;
+        /// <summary> Allows user to display/hide "ignored" words </summary>
+        public bool ToHideIgnoredWords
+        {
+            get { return _toHideIgnoredWords; }
+            set
+            {
+                _toHideIgnoredWords = value;
+                OnPropertyChanged("ToHideIgnoredWords");
             }
         }
 
 
         private bool _toLaunchOnSystemStart = true;
-
         /// <summary> Determines if the application launches at startup </summary>
         public bool ToLaunchOnSystemStart
         {
@@ -149,13 +176,15 @@ namespace AngryShop.Entities
         /// <summary>
         /// Sets all values to default
         /// </summary>
-        public void SetToDefaultCommonValues()
+        public void SetToDefaultValues()
         {
             SortOrderType = SortOrderTypes.ByFrequency;
-            SortOrderIsAscending = true;
+            SortOrderIsAscending = false;
             FrequencyThreshold = 2;
-            ListVisibilityType = ListVisibilityTypes.OnFocus;
-            ToHideCommonWords = true;
+            //ListVisibilityType = ListVisibilityTypes.OnTrayIconClick;
+            ToDisplayListOnTextFocus = false;
+            ToDisplayListOnHotkey = true;
+            ToHideIgnoredWords = true;
             ToLaunchOnSystemStart = true;
             ToRestoreClipboard = true;
         }

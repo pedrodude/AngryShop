@@ -1,16 +1,14 @@
-﻿using System.Diagnostics;
-using System.Windows;
-using System.Windows.Navigation;
+﻿using System.Windows;
 using AngryShop.Entities;
 using AngryShop.Helpers;
 using AngryShop.Items;
 
 namespace AngryShop.Windows
 {
-    public partial class WindowSettings
+    public partial class WindowConfiguration
     {
-        public SomethingHappenedDelegate OnCloseWindowSettings;
-        public WindowSettings()
+        public DialogClosedDelegate OnCloseWindowSettings;
+        public WindowConfiguration()
         {
             InitializeComponent();
 
@@ -24,24 +22,24 @@ namespace AngryShop.Windows
 
             DataContext = null;
             Close();
-            if (OnCloseWindowSettings != null) OnCloseWindowSettings();
+            if (OnCloseWindowSettings != null) OnCloseWindowSettings(true);
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
             DataContext = null;
             Close();
-            if (OnCloseWindowSettings != null) OnCloseWindowSettings();
+            if (OnCloseWindowSettings != null) OnCloseWindowSettings(false);
         }
 
         private void ButtonSetToDefaults_Click(object sender, RoutedEventArgs e)
         {
-            ((Configuration)DataContext).SetToDefaultCommonValues();
+            ((Configuration)DataContext).SetToDefaultValues();
         }
 
         private void HyperlinkEditWordsList_OnClick(object sender, RoutedEventArgs e)
         {
-            var win = new WindowEditCommonWords {Owner = this};
+            var win = new WindowEditIgnoredWords {Owner = this};
             win.ShowDialog();
         }
 
